@@ -71,7 +71,9 @@ class PropelModule extends Module
             );
         }
 
-        return $query->execute();
+        $query->execute();
+
+        return $query->fetchAll();
     }
 
     /**
