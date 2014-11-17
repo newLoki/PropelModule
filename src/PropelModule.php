@@ -32,11 +32,13 @@ class PropelModule extends Module
 
     /**
      * @param string $table
-     * @param array|string $selectColumns
+     * @param string $selectColumns
      * @param array $criteria
+     * @param int $limit
+     * @return array
      * @throws ModuleException
      */
-    public function seeInDatabase($table, $selectColumns, array $criteria)
+    public function seeInDatabase($table, $selectColumns, array $criteria, $limit = 10)
     {
         $criteriaColumns = array_keys($criteria);
         $criteriaConditions = array_values($criteria);
@@ -52,10 +54,11 @@ class PropelModule extends Module
         }
 
         $sql = sprintf(
-            'SELECT %s FROM %s WHERE %s',
+            'SELECT %s FROM %s WHERE %s LIMIT %d',
             is_array($selectColumns) ? implode(', ', $selectColumns) : $selectColumns,
             $table,
-            $where
+            $where,
+            $limit
         );
         $query = $this->connection->query($sql);
         $this->debugSection('Query: ', $sql);
@@ -68,6 +71,8 @@ class PropelModule extends Module
                 $this->guessParamType($criteriaConditions[$i])
             );
         }
+
+        return $query->fetchAll();
     }
 
     /**
