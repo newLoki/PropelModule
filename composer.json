@@ -1,0 +1,21 @@
+{
+    "name": "newLoki/PropelModule",
+    "description": "Propel DB testing module",
+    "authors": [
+        {
+            "name": "Alberto Assmann",
+            "email": "alberto.assmmann@project-a.com"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+        "codeception/codeception": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Codeception\\Module\\": "src"
+        }
+    }
+}
