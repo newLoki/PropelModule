@@ -49,7 +49,13 @@ class PropelModule extends Module
                 $where .= ' AND ';
             }
 
-            $where .= $criteriaColumns[$i] . ' = :param' . $i;
+            $where .= $criteriaColumns[$i] . ' = ';
+
+            if (is_string($criteriaConditions[$i])) {
+                $where .= '"' . $criteriaConditions[$i] . '"';
+            } else {
+                $where .= $criteriaConditions[$i];
+            }
         }
 
         $sql = sprintf(
@@ -60,18 +66,8 @@ class PropelModule extends Module
             $limit
         );
 
-        $query = $this->connection->prepare($sql);
         $this->debugSection('Query: ', $sql);
-
-        for ($i = 0; $i < count($criteriaConditions); $i++) {
-            $query->bindValue(
-                ':param' . $i,
-                $criteriaConditions[$i],
-                $this->guessParamType($criteriaConditions[$i])
-            );
-        }
-
-        $query->execute();
+        $query = $this->connection->query($sql);
 
         return $query->fetchAll();
     }
