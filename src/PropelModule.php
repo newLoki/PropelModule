@@ -73,6 +73,17 @@ class PropelModule extends Module
     }
 
     /**
+     * @param string $sql
+     * @return array
+     */
+    public function execInDatabase($sql)
+    {
+        $query = $this->connection->query($sql);
+
+        return $query->fetchAll();
+    }
+
+    /**
      * @param mixed $param
      * @return int
      * @throws ModuleException
