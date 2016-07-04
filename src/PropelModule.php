@@ -14,7 +14,7 @@ class PropelModule extends Module
 
     public function _initialize()
     {
-        $this->connection = \Propel::getConnection();
+        $this->connection = \Propel\Runtime\Propel::getConnection();
     }
 
     /**
